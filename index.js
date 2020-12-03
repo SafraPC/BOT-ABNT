@@ -1,7 +1,6 @@
-const ig = require("./crea");
+const ig = require("./abnt");
 
 (async () => {
 	await ig.init();
-	await ig.login(process.env.LOGIN, process.env.PASSWORD);
 	debugger;
 })();

@@ -10,13 +10,34 @@ async function abnt() {
 
   //Put some functions over here for get the data
 
+  /*
+    async function getList(page) {
+    const totalEvaluate = await page.evaluate(() => {
+      const lis = document.querySelectorAll(".rpItem a.rpExpandable");
+      const list = [].slice.call(lis, 0, 12);
+      list.forEach(link =>{
+        console.log(link.classList[2].toString());
+        const teste = document.querySelectorAll(`${link.classList[2]}`);
+        console.log(teste);
+      }
+      );
+    });
+    //  await totalEvaluate.map(link => {
+    //     console.log(link);
+    //  });
+  }
+  */ 
+
   async function getList(page) {
     const totalEvaluate = await page.evaluate(() => {
       const lis = document.querySelectorAll(".rpItem a.rpExpandable");
       const list = [].slice.call(lis, 0, 12);
-      return list;
+      const teste = list.map(link =>{
+        link
+      });
+      return teste;
     });
-    console.log(totalEvaluate);
+    console.log(await totalEvaluate);
     //  await totalEvaluate.map(link => {
     //     console.log(link);
     //  });

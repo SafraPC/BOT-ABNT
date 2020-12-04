@@ -14,19 +14,18 @@ async function abnt() {
 		const macros = await page.evaluate((macrossetores) => {
 			const lists = document.querySelectorAll("li.rpItem");
 			const lis = document.querySelectorAll(".rpItem .rpExpandable");
-			lis.forEach((link) => {
+			
+			 lis.forEach((link) => {
         
-        console.log(link);
-        link.click();
-				// // const as = document.querySelector(`${link} a`);
-				// console.log(as);
-				
-				// macrossetores.push({ macrossetor: link.innerText });
-			});
-			return macrossetores;
+				console.log(link.innerText);
+				link.click();
+					// // const as = document.querySelector(`${link} a`);
+					// console.log(as);
+					
+					// macrossetores.push({ macrossetor: link.innerText });
+				}); ;
+
 		}, macrossetores);
-    console.log(macros);
-		return macros;
 	}
 
 	async function clickElement(page, selector) {
@@ -45,7 +44,7 @@ async function abnt() {
 	//Can use:  a,span, ul, li
 	// const listDiv = await getList(page,'#tabs-1 a')
    await getList(page);
-   console.log(macro);
+ 
 	//List macrosetor labels and what have inside him
 	//  await clickElement(page,'#tabs-1 a');
 

@@ -27,7 +27,7 @@ async function abnt() {
         });
         lisParents.forEach((liParent) => {
 
-		const teste = [].map((liParent)=>
+		const teste = [].map.call(
 				liParent.children[1].children[0].children,
 				(child) => child.innerText
 			  );

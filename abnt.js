@@ -10,37 +10,45 @@ async function abnt() {
 
   //Put some functions over here for get the data
   const macrossetores = [];
-  const abntMacrossetores = [];
+  const projetoMacrossetores = [];
   const mesclaMacrosetores = [];
   async function getList(page) {
     await page.evaluate(
-      (macrossetores, abntMacrossetores, mesclaMacrosetores) => {
+      (macrossetores, projetoMacrossetores, mesclaMacrosetores) => {
         const lis = document.querySelectorAll(".rpItem .rpExpandable");
         //path ".rpSlide >.rpGroup > .rpLevel1 > .rpItem > .rpFirst > .rpLast > .rpLink > .rpOut > .rpText"
-        const lisT = document.querySelectorAll(".rpSlide");
-
+        // const lisParents = document.querySelectorAll(".rpSlide");
+        const lisParents = document.querySelectorAll(".rpRootGroup > li");
         lis.forEach((link) => {
           link.click();
           macrossetores.push({
             macrossetor: link.textContent,
           });
         });
-        lisT.forEach((linkT) => {
-          abntMacrossetores.push({
-            grupo: linkT.textContent,
-		  });
-        });
-		for (let i = 0; i < macrossetores.length; ) {
-            mesclaMacrosetores.push({
-              macrossetor: macrossetores[i],
-              grupo: abntMacrossetores[i],
-            });
-            i++;
-          }
+        lisParents.forEach((liParent) => {
+
+		const teste = [].map((liParent)=>
+				liParent.children[1].children[0].children,
+				(child) => child.innerText
+			  );
+
+          projetoMacrossetores.push({
+            comites: teste,
+            
+          });
+			
+	});
+        for (let i = 0; i < macrossetores.length; ) {
+          mesclaMacrosetores.push({
+            macrossetor: macrossetores[i],
+            projeto: projetoMacrossetores[i],
+          });
+          i++;
+        }
         console.log(mesclaMacrosetores);
       },
       macrossetores,
-      abntMacrossetores,
+      projetoMacrossetores,
       mesclaMacrosetores
     );
   }

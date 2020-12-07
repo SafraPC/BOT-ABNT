@@ -11,23 +11,27 @@ async function abnt() {
   //Put some functions over here for get the data
   const macrossetores = [];
   async function getList(page) {
-     await page.evaluate((macrossetores) => {
-		macrossetores = [];
-	  const lis = document.querySelectorAll(".rpItem .rpExpandable");
-	  const lisT = document.querySelectorAll(".rpSlide");
+    await page.evaluate((macrossetores) => {
+      const lis = document.querySelectorAll(".rpItem .rpExpandable");
+      //path ".rpSlide >.rpGroup > .rpLevel1 > .rpItem > .rpFirst > .rpLast > .rpLink > .rpOut > .rpText"
+      const lisT = document.querySelectorAll(".rpSlide");
 
       lis.forEach((link) => {
-		link.click();
+        link.click();
+      
+	  });
+	  lisT.forEach((linkT) => {
 
-		lisT.forEach((linkT) =>{
-			console.log(linkT.innerText)
-			// macrossetores.push({macrossetor:link.innerText, grupo:linkT.innerText});
-		})
+		console.log(linkT.textContent);
 
-
-		},macrossetores);
-	  console.log(macrossetores);
-    });
+		//   macrossetores.push({
+		// 	macrossetor: link.textContent,
+		// 	grupo: linkT.textContent,
+		//   });
+		
+	});
+      console.log(macrossetores);
+    },macrossetores);
   }
 
   async function clickElement(page, selector) {
@@ -44,7 +48,6 @@ async function abnt() {
 
   //Start the method
   await getList(page);
-
 
   //Only list macrosetor labels
   //Can use:  a,span, ul, li

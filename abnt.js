@@ -12,13 +12,20 @@ async function abnt() {
   const macrossetores = [];
   async function getList(page) {
      await page.evaluate((macrossetores) => {
-		console.clear();
 		macrossetores = [];
-      const lis = document.querySelectorAll(".rpItem .rpExpandable");	
+	  const lis = document.querySelectorAll(".rpItem .rpExpandable");
+	  const lisT = document.querySelectorAll(".rpSlide");
+
       lis.forEach((link) => {
 		link.click();
-		macrossetores.push({macrossetor:link.innerText});
-	  },macrossetores);
+
+		lisT.forEach((linkT) =>{
+			console.log(linkT.innerText)
+			// macrossetores.push({macrossetor:link.innerText, grupo:linkT.innerText});
+		})
+
+
+		},macrossetores);
 	  console.log(macrossetores);
     });
   }

@@ -10,28 +10,39 @@ async function abnt() {
 
   //Put some functions over here for get the data
   const macrossetores = [];
+  const abntMacrossetores = [];
+  const mesclaMacrosetores = [];
   async function getList(page) {
-    await page.evaluate((macrossetores) => {
-      const lis = document.querySelectorAll(".rpItem .rpExpandable");
-      //path ".rpSlide >.rpGroup > .rpLevel1 > .rpItem > .rpFirst > .rpLast > .rpLink > .rpOut > .rpText"
-      const lisT = document.querySelectorAll(".rpSlide");
+    await page.evaluate(
+      (macrossetores, abntMacrossetores, mesclaMacrosetores) => {
+        const lis = document.querySelectorAll(".rpItem .rpExpandable");
+        //path ".rpSlide >.rpGroup > .rpLevel1 > .rpItem > .rpFirst > .rpLast > .rpLink > .rpOut > .rpText"
+        const lisT = document.querySelectorAll(".rpSlide");
 
-      lis.forEach((link) => {
-        link.click();
-      
-	  });
-	  lisT.forEach((linkT) => {
-
-		console.log(linkT.textContent);
-
-		//   macrossetores.push({
-		// 	macrossetor: link.textContent,
-		// 	grupo: linkT.textContent,
-		//   });
-		
-	});
-      console.log(macrossetores);
-    },macrossetores);
+        lis.forEach((link) => {
+          link.click();
+          macrossetores.push({
+            macrossetor: link.textContent,
+          });
+        });
+        lisT.forEach((linkT) => {
+          abntMacrossetores.push({
+            grupo: linkT.textContent,
+		  });
+        });
+		for (let i = 0; i < macrossetores.length; ) {
+            mesclaMacrosetores.push({
+              macrossetor: macrossetores[i],
+              grupo: abntMacrossetores[i],
+            });
+            i++;
+          }
+        console.log(mesclaMacrosetores);
+      },
+      macrossetores,
+      abntMacrossetores,
+      mesclaMacrosetores
+    );
   }
 
   async function clickElement(page, selector) {

@@ -10,27 +10,29 @@ async function abnt() {
   //Put some functions over here for get the data
 
   async function getList(page) {
-    const macrossetores = await page.evaluate(() => {
+    const macrossetoresFunc = await page.evaluate(() => {
+      const lisParents = [
+        ...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
+      ];
+
       const macrossetores = [];
-      const lisParents = document.querySelectorAll(".rpRootGroup > li");
+
+      // lisParents.forEach((li) => {
+      //   console.log(li.children);
+      // });
 
       lisParents.forEach((liParent) => {
-        console.log(
-          [].map.call(
+        macrossetores.push({
+          title: liParent.children[0].innerText,
+          comite: [].map.call(
             liParent.children[1].children[0].children,
             (child) => child.innerText
-          )
-        );
-        // macrossetores.push({
-        //   title: liParent.children[0].innerText,
-        //   comite: [].map.call(
-        //     liParent.children[1].children[0].children,
-        //     (child) => child.innerText
-        //   ),
-        // });
+          ),
+        });
       });
       return macrossetores;
     });
+    console.log(macrossetoresFunc);
   }
   //Start a browser
   //Browser will open a new page

@@ -10,16 +10,44 @@ async function abnt() {
   //Put some functions over here for get the data
 
   async function getList(page) {
-    const macrossetoresFunc = await page.evaluate(() => {
+    const macrossetoresFunc = await page.evaluate(async () => {
       const lisParents = [
         ...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
       ];
-
       const macrossetores = [];
+      /*
+     
+      console.log(lisObjective);
+      for (variant of lisObjective) {
+        console.log(variant.children[0]);
+        await variant.children[0].click();
 
-      // lisParents.forEach((li) => {
-      //   console.log(li.children);
-      // });
+    const macrossetores = [];
+      console.log(lisObjective);
+      for (variant of lisObjective) {
+        await new Promise((resolve) => {
+          setTimeout(resolve, 2500);
+        });
+        console.log(variant.children[0]);
+        await variant.click();
+      }
+
+      }*/
+
+      for (variant of lisParents) {
+        variant.children[0].click();
+      }
+
+      // for (variant of lisParents) {
+      //   await new Promise((resolve) => {
+      //     setTimeout(resolve, 2500);
+      //   });
+      //   console.log(
+      //     variant.children[1].children[0].children[0].children[0].children[0]
+      //       .children[1]
+      //   );
+      //   variant.children[1].children[0].children[0].children[0].click();
+      // }
 
       lisParents.forEach((liParent) => {
         macrossetores.push({
@@ -34,10 +62,11 @@ async function abnt() {
     });
     console.log(macrossetoresFunc);
   }
+
   //Start a browser
   //Browser will open a new page
   //Page will go to a link.
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: false, devtools: true });
   const page = await browser.newPage();
   await page.goto(INITIAL_URL);
 

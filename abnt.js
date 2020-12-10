@@ -33,20 +33,39 @@ async function abnt() {
       }
 
       }*/
+
       for (variant of lisParents) {
         variant.children[0].click();
       }
-      for (variant of lisParents) {
-        // await new Promise((resolve) => {
-        //   setTimeout(resolve, 2500);
-        // });
-        console.log(
-          variant.children[1].children[0].children[0].children[0].children[0]
-            .children[1]
-        );
-        variant.children[1].children[0].children[0].children[0].click();
-      }
 
+      let getArrayProject = [];
+      lisParents.forEach((liParent) => {
+        getArrayProject.push(
+          [].map.call(
+            liParent.children[1].children[0].children,
+            (child) => child
+          )
+        );
+      });
+      // console.log(getArrayProject);
+      // getArrayProject.forEach((liParent, i) => {
+      //   liParent.forEach((child) => {
+      //     await new Promise((resolve) => {
+      //       setTimeout(resolve, 2500);
+      //     });
+      //     child.children[0].click();
+      //     console.log("meu cu");
+      //   });
+      // });
+      for (const liParent of getArrayProject) {
+        for (const child of liParent) {
+          await new Promise((resolve) => {
+            setTimeout(resolve, 2500);
+            child.children[0].click();
+          });
+          console.log(child.children[0]);
+        }
+      }
       lisParents.forEach((liParent) => {
         macrossetores.push({
           title: liParent.children[0].innerText,

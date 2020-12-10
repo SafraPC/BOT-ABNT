@@ -33,21 +33,19 @@ async function abnt() {
       }
 
       }*/
-
       for (variant of lisParents) {
         variant.children[0].click();
       }
-
-      // for (variant of lisParents) {
-      //   await new Promise((resolve) => {
-      //     setTimeout(resolve, 2500);
-      //   });
-      //   console.log(
-      //     variant.children[1].children[0].children[0].children[0].children[0]
-      //       .children[1]
-      //   );
-      //   variant.children[1].children[0].children[0].children[0].click();
-      // }
+      for (variant of lisParents) {
+        // await new Promise((resolve) => {
+        //   setTimeout(resolve, 2500);
+        // });
+        console.log(
+          variant.children[1].children[0].children[0].children[0].children[0]
+            .children[1]
+        );
+        variant.children[1].children[0].children[0].children[0].click();
+      }
 
       lisParents.forEach((liParent) => {
         macrossetores.push({

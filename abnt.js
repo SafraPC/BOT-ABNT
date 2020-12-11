@@ -1,5 +1,6 @@
 //CONSULTA NACIONAL https://www.abntonline.com.br/consultanacional/default.aspx
 //COMITÊS TÉCNICOS http://www.abnt.org.br/normalizacao/comites-tecnicos
+
 const puppeteer = require("puppeteer");
 const INITIAL_URL =
   "https://www.abntonline.com.br/consultanacional/default.aspx";
@@ -8,6 +9,10 @@ const INITIAL_URL =
 async function abnt() {
   //Main function that will run the project
   //Put some functions over here for get the data
+
+  const browser = await puppeteer.launch({ headless: false, devtools: true });
+  const page = await browser.newPage();
+  await page.goto(INITIAL_URL);
 
   async function getList(page) {
     const macrossetoresFunc = await page.evaluate(async () => {
@@ -51,12 +56,12 @@ async function abnt() {
       for (const liParent of getArrayProject) {
         for (const child of liParent) {
           await new Promise((resolve) => {
-            setTimeout(resolve, 500);
+            setTimeout(resolve, 600);
           });
-          console.log(child.children[0]);
-          child.children[0].click();
+          await child.children[0].click();
         }
       }
+
       lisParents.forEach((liParent) => {
         macrossetores.push({
           title: liParent.children[0].innerText,
@@ -74,9 +79,6 @@ async function abnt() {
   //Start a browser
   //Browser will open a new page
   //Page will go to a link.
-  const browser = await puppeteer.launch({ headless: false, devtools: true });
-  const page = await browser.newPage();
-  await page.goto(INITIAL_URL);
 
   //Start the method
   await getList(page);

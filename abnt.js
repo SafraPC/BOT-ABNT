@@ -47,23 +47,14 @@ async function abnt() {
           )
         );
       });
-      // console.log(getArrayProject);
-      // getArrayProject.forEach((liParent, i) => {
-      //   liParent.forEach((child) => {
-      //     await new Promise((resolve) => {
-      //       setTimeout(resolve, 2500);
-      //     });
-      //     child.children[0].click();
-      //     console.log("meu cu");
-      //   });
-      // });
+
       for (const liParent of getArrayProject) {
         for (const child of liParent) {
           await new Promise((resolve) => {
-            setTimeout(resolve, 2500);
-            child.children[0].click();
+            setTimeout(resolve, 500);
           });
           console.log(child.children[0]);
+          child.children[0].click();
         }
       }
       lisParents.forEach((liParent) => {

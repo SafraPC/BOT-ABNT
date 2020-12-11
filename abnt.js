@@ -4,76 +4,89 @@
 const puppeteer = require("puppeteer");
 const INITIAL_URL =
   "https://www.abntonline.com.br/consultanacional/default.aspx";
-
+const SECUNDARY_URL =
+  "https://www.abntonline.com.br/consultanacional/projetat.aspx";
 //rpItem  classList that we need to open and click in the element
 async function abnt() {
   //Main function that will run the project
   //Put some functions over here for get the data
 
   const browser = await puppeteer.launch({ headless: false, devtools: true });
-  const page = await browser.newPage();
-  await page.goto(INITIAL_URL);
+  // const page = await browser.newPage();
+  const secondary_page = await browser.newPage();
+  // await page.goto(INITIAL_URL);
+  await secondary_page.goto(SECUNDARY_URL);
 
-  async function getList(page) {
-    const macrossetoresFunc = await page.evaluate(async () => {
-      const lisParents = [
-        ...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
-      ];
-      const macrossetores = [];
-      /*
-     
-      console.log(lisObjective);
-      for (variant of lisObjective) {
-        console.log(variant.children[0]);
-        await variant.children[0].click();
+  async function getList(secondary_page) {
+    //Trying get projects by comite in primary url
 
-    const macrossetores = [];
-      console.log(lisObjective);
-      for (variant of lisObjective) {
-        await new Promise((resolve) => {
-          setTimeout(resolve, 2500);
-        });
-        console.log(variant.children[0]);
-        await variant.click();
-      }
+    // const runInProjects = await page.evaluate(async () => {
+    //   const testing = [
+    //     ...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
+    //   ];
 
-      }*/
+    //   let getArrayProject = [];
+    //   testing.forEach((liParent) => {
+    //     getArrayProject.push(
+    //       [].map.call(
+    //         liParent.children[1].children[0].children,
+    //         (child) => child
+    //       )
+    //     );
+    //   });
+    //   for (variant of testing) {
+    //     variant.children[0].click();
+    //   }
+    //   for (const liParent of getArrayProject) {
+    //     for (const child of liParent) {
+    //       await new Promise((resolve) => {
+    //         setTimeout(resolve, 400);
+    //       });
+    //       await child.children[0].click();
+    //     }
+    //   }
+    // });
 
-      for (variant of lisParents) {
-        variant.children[0].click();
-      }
+    //Try to get project´s by all project page
 
-      let getArrayProject = [];
-      lisParents.forEach((liParent) => {
-        getArrayProject.push(
-          [].map.call(
-            liParent.children[1].children[0].children,
-            (child) => child
-          )
-        );
-      });
+    await secondary_page.evaluate(async () => {
+      const getOrderClick = document.querySelector(
+        "#ctl00_ContentPlaceHolder1_gridProjeto_ctl00 > thead > tr > th:nth-child(4) > a"
+      );
+      await getOrderClick.click();
 
-      for (const liParent of getArrayProject) {
-        for (const child of liParent) {
-          await new Promise((resolve) => {
-            setTimeout(resolve, 600);
-          });
-          await child.children[0].click();
-        }
-      }
-
-      lisParents.forEach((liParent) => {
-        macrossetores.push({
-          title: liParent.children[0].innerText,
-          comite: [].map.call(
-            liParent.children[1].children[0].children,
-            (child) => child.innerText
+      //get projects
+      setTimeout(() => {
+        const abntProjects = [
+          ...document.querySelectorAll(
+            "#ctl00_ContentPlaceHolder1_gridProjeto_ctl00 > tbody > tr"
           ),
+        ];
+        const getProjects = [];
+        abntProjects.forEach((project) => {
+          console.log(project.children[3].innerText);
+          // console.log(project.innerText);
         });
-      });
-      return macrossetores;
+      }, 3000);
     });
-    console.log(macrossetoresFunc);
+
+    // const macrossetoresFunc = await page.evaluate(async () => {
+    //   const lisParents = [
+    //     ...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
+    //   ];
+    //   const macrossetores = [];
+    //   lisParents.forEach((liParent) => {
+    //     macrossetores.push({
+    //       macrossetor: liParent.children[0].innerText,
+    //       comite: [].map.call(
+    //         liParent.children[1].children[0].children,
+    //         (child) => child.innerText
+    //       ),
+    //     });
+    //   });
+    //   return macrossetores;
+    // });
+    // console.log(macrossetoresFunc);
   }
 
   //Start a browser
@@ -81,7 +94,7 @@ async function abnt() {
   //Page will go to a link.
 
   //Start the method
-  await getList(page);
+  await getList(secondary_page);
 
   //Only list macrosetor labels
   //Can use:  a,span, ul, li

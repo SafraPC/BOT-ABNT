@@ -12,9 +12,9 @@ async function abnt() {
   //Put some functions over here for get the data
 
   const browser = await puppeteer.launch({ headless: false, devtools: true });
-  // const page = await browser.newPage();
+  const page = await browser.newPage();
   const secondary_page = await browser.newPage();
-  // await page.goto(INITIAL_URL);
+  await page.goto(INITIAL_URL);
   await secondary_page.goto(SECUNDARY_URL);
 
   async function getList(secondary_page) {
@@ -49,44 +49,58 @@ async function abnt() {
 
     //Try to get project´s by all project page
 
-    await secondary_page.evaluate(async () => {
+    const getProjectsFunc = await secondary_page.evaluate(async () => {
+      
+     
       const getOrderClick = document.querySelector(
         "#ctl00_ContentPlaceHolder1_gridProjeto_ctl00 > thead > tr > th:nth-child(4) > a"
       );
       await getOrderClick.click();
-
+  
       //get projects
-      setTimeout(() => {
-        const abntProjects = [
-          ...document.querySelectorAll(
-            "#ctl00_ContentPlaceHolder1_gridProjeto_ctl00 > tbody > tr"
-          ),
-        ];
+       
+          let abntProjects = [
+            ...document.querySelectorAll(
+              "#ctl00_ContentPlaceHolder1_gridProjeto_ctl00 > tbody > tr"
+            ),
+          ];
         const getProjects = [];
         abntProjects.forEach((project) => {
-          console.log(project.children[3].innerText);
-          // console.log(project.innerText);
-        });
-      }, 3000);
+              getProjects.push({
+                macrossetor: project.children[3].innerText,
+                comite: project.children[2].innerText,
+                projeto:({titulo:project.children[1].innerText,
+                  numero:project.children[0].innerText,
+                  data:project.children[4].innerText,
+                  link:project.children[1].children[0].href})
+                }, 
+              )
+      });
+      console.log(getProjects);
+      return getProjects;
+    
+   
     });
 
-    // const macrossetoresFunc = await page.evaluate(async () => {
-    //   const lisParents = [
-    //     ...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
-    //   ];
-    //   const macrossetores = [];
-    //   lisParents.forEach((liParent) => {
-    //     macrossetores.push({
-    //       macrossetor: liParent.children[0].innerText,
-    //       comite: [].map.call(
-    //         liParent.children[1].children[0].children,
-    //         (child) => child.innerText
-    //       ),
-    //     });
-    //   });
-    //   return macrossetores;
-    // });
+    const macrossetoresFunc = await page.evaluate(async () => {
+      const lisParents = [
+        ...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
+      ];
+      const macrossetores = [];
+      lisParents.forEach((liParent) => {
+        macrossetores.push({
+          macrossetor: liParent.children[0].innerText,
+          comite: [].map.call(
+            liParent.children[1].children[0].children,
+            (child) => child.innerText
+          ),
+        });
+      });
+      return macrossetores;
+    });
+      console.log(getProjectsFunc);
     // console.log(macrossetoresFunc);
+   
   }
 
   //Start a browser

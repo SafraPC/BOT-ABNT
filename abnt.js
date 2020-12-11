@@ -18,35 +18,6 @@ async function abnt() {
   await secondary_page.goto(SECUNDARY_URL);
 
   async function getList(secondary_page) {
-    //Trying get projects by comite in primary url
-
-    // const runInProjects = await page.evaluate(async () => {
-    //   const testing = [
-    //     ...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
-    //   ];
-
-    //   let getArrayProject = [];
-    //   testing.forEach((liParent) => {
-    //     getArrayProject.push(
-    //       [].map.call(
-    //         liParent.children[1].children[0].children,
-    //         (child) => child
-    //       )
-    //     );
-    //   });
-    //   for (variant of testing) {
-    //     variant.children[0].click();
-    //   }
-    //   for (const liParent of getArrayProject) {
-    //     for (const child of liParent) {
-    //       await new Promise((resolve) => {
-    //         setTimeout(resolve, 400);
-    //       });
-    //       await child.children[0].click();
-    //     }
-    //   }
-    // });
-
     //Try to get project´s by all project page
 
     const getProjectsFunc = await secondary_page.evaluate(async () => {
@@ -81,7 +52,7 @@ async function abnt() {
     
    
     });
-
+  
     const macrossetoresFunc = await page.evaluate(async () => {
       const lisParents = [
         ...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
@@ -89,8 +60,8 @@ async function abnt() {
       const macrossetores = [];
       lisParents.forEach((liParent) => {
         macrossetores.push({
-          macrossetor: liParent.children[0].innerText,
-          comite: [].map.call(
+          title: liParent.children[0].innerText,
+          filter: [].map.call(
             liParent.children[1].children[0].children,
             (child) => child.innerText
           ),
@@ -99,8 +70,8 @@ async function abnt() {
       return macrossetores;
     });
       console.log(getProjectsFunc);
-    // console.log(macrossetoresFunc);
-   
+      console.log(macrossetoresFunc);
+      console.log("Projetos Ativos :"+getProjectsFunc.length);
   }
 
   //Start a browser

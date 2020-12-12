@@ -53,8 +53,9 @@ async function abnt() {
 				new Set()
 			)
 		);
+		console.log(JSON.stringify(unique));
+		console.log("Projetos Ativos :" + getProjectsFunc.length);
 
-		console.log(unique);
 		// const macrossetoresFunc = await page.evaluate(async () => {
 		// 	const lisParents = [
 		// 		...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
@@ -71,7 +72,7 @@ async function abnt() {
 		// 	});
 		// 	return macrossetores;
 		// });
-		console.log("Projetos Ativos :" + getProjectsFunc.length);
+		
 	}
 
 	//Start a browser

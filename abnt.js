@@ -14,27 +14,30 @@ async function abnt() {
   const browser = await puppeteer.launch({ headless: false, devtools: true });
   const page = await browser.newPage();
   await page.goto(SECUNDARY_URL);
-  const page2 = await browser.newPage();
-  await page2.goto(INITIAL_URL);
+  
+  //For get with filter
+  //   const page2 = await browser.newPage();
+//   await page2.goto(INITIAL_URL);
 
   async function getList(page, page2) {
-    //getting fitlters
-    const macrossetoresFunc = await page2.evaluate(async () => {
-      const lisParents = [
-        ...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
-      ];
-      const macrossetores = [];
-      lisParents.forEach((liParent) => {
-        macrossetores.push({
-          macrossetor: liParent.children[0].innerText,
-          filter: [].map.call(
-            liParent.children[1].children[0].children,
-            (child) => child.innerText
-          ),
-        });
-      });
-      return macrossetores;
-    });
+	//getting fitlters
+	
+    // const macrossetoresFunc = await page2.evaluate(async () => {
+    //   const lisParents = [
+    //     ...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
+    //   ];
+    //   const macrossetores = [];
+    //   lisParents.forEach((liParent) => {
+    //     macrossetores.push({
+    //       macrossetor: liParent.children[0].innerText,
+    //       filter: [].map.call(
+    //         liParent.children[1].children[0].children,
+    //         (child) => child.innerText
+    //       ),
+    //     });
+    //   });
+    //   return macrossetores;
+    // });
 
     //Try to get project´s by all project page
     const getProjectsFunc = await page.evaluate(async () => {
@@ -61,10 +64,13 @@ async function abnt() {
       ];
       abntProjects.forEach((project) => {
         getProjects.push({
-          titulo: project.children[1].innerText,
-          numero: project.children[0].innerText,
-          data: project.children[4].innerText,
-          link: project.children[1].children[0].href,
+			comite:project.children[2].innerText,
+			macrossetor:project.children[3].innerText,
+			project:[{ titulo: project.children[1].innerText,
+				numero: project.children[0].innerText,
+				data: project.children[4].innerText,
+				link: project.children[1].children[0].href,}],
+         
         });
       });
       //remove an index " " of array
@@ -72,7 +78,9 @@ async function abnt() {
       getProjects.shift();
 
       return getProjects;
-    });
+	});
+	let getScripts = JSON.stringify(getProjectsFunc,null,2);
+	console.log(getScripts);
 
     //atribuate some data in filters
     // macrossetoresFunc.forEach((e) => {
@@ -85,8 +93,7 @@ async function abnt() {
     // });
 
     //Data passing
-    console.log(macrossetoresFunc);
-    console.log(getProjectsFunc);
+    // console.log(macrossetoresFunc);
   }
 
   //Start a browser
@@ -94,7 +101,7 @@ async function abnt() {
   //Page will go to a link.
 
   //Start the method
-  await getList(page, page2);
+  await getList(page);
   // browser.close()
 }
 module.exports = abnt;

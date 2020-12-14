@@ -68,6 +68,8 @@ async function abnt() {
     );
     //Try to get and desmenber all data
     let getMacrossetor = [];
+    let gettingProject = [];
+    let getScript = [];
     //put only macrossetor in a array
     unique.forEach((item) => {
       getMacrossetor.push({ macrossetor: item.macrossetor });
@@ -83,20 +85,27 @@ async function abnt() {
           if (
             getProjectsFunc[i].macrossetor === getMacrossetor[j].macrossetor
           ) {
-            // console.log(getProjectsFunc[i].macrossetor);
+            //getting projects into respective macrossetor
+              gettingProject.push({project:getProjectsFunc[i]});
             i++;
           } else {
-             console.log(getMacrossetor[j].macrossetor);
+              if(getProjectsFunc[i-1].macrossetor === getMacrossetor[j].macrossetor){
+                  getScript.push({macrossetor:getProjectsFunc[i-1].macrossetor,gettingProject});
+                  gettingProject = [];
+              }
+            //  console.log(getMacrossetor[j].macrossetor);
+            //already take all projects, pass to other macrossetor
             j++;
           }
         }
       } else {
         break;
       }
+      console.log(JSON.stringify(getScript,null,2));
     }
 
     //array who get all and pass for a json file
-    let getScript = [];
+   
 
     // let getScripts = JSON.stringify(getProjectsFunc, null, 2);
     // console.log(getScripts);

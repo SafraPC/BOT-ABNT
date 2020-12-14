@@ -47,10 +47,10 @@ async function abnt() {
         getProjects.push({
 			comite:project.children[2].innerText,
 			macrossetor:project.children[3].innerText,
-			project:[{ titulo: project.children[1].innerText,
+			project:{ titulo: project.children[1].innerText,
 				numero: project.children[0].innerText,
 				data: project.children[4].innerText,
-				link: project.children[1].children[0].href,}],
+				link: project.children[1].children[0].href,},
          
         });
       });

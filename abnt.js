@@ -46,10 +46,10 @@ async function abnt() {
       abntProjects.forEach((project) => {
         getProjects.push({
           macrossetor: project.children[3].innerText,
-          comite: project.children[2].innerText,
           project: {
-            numero: project.children[0].innerText,
             titulo: project.children[1].innerText,
+            numero: project.children[0].innerText,
+            comite: project.children[2].innerText,
             data: project.children[4].innerText,
             link: project.children[1].children[0].href,
           },

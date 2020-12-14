@@ -18,6 +18,24 @@ async function abnt() {
   await page2.goto(INITIAL_URL);
 
   async function getList(page, page2) {
+    //getting fitlters
+    const macrossetoresFunc = await page2.evaluate(async () => {
+      const lisParents = [
+        ...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
+      ];
+      const macrossetores = [];
+      lisParents.forEach((liParent) => {
+        macrossetores.push({
+          macrossetor: liParent.children[0].innerText,
+          filter: [].map.call(
+            liParent.children[1].children[0].children,
+            (child) => child.innerText
+          ),
+        });
+      });
+      return macrossetores;
+    });
+
     //Try to get project´s by all project page
     const getProjectsFunc = await page.evaluate(async () => {
       const getOrderClick = document.querySelector(
@@ -43,59 +61,22 @@ async function abnt() {
       ];
       abntProjects.forEach((project) => {
         getProjects.push({
-          macrossetor: project.children[3].innerText,
-          comite: {
-            title: project.children[2].innerText,
-            projeto: {
-              titulo: project.children[1].innerText,
-              numero: project.children[0].innerText,
-              data: project.children[4].innerText,
-              link: project.children[1].children[0].href,
-            },
-          },
+          titulo: project.children[1].innerText,
+          numero: project.children[0].innerText,
+          data: project.children[4].innerText,
+          link: project.children[1].children[0].href,
         });
       });
       //remove an index " " of array
-      await delay(1000);
-      function checkUndefined(parameter) {
-        return parameter.macrossetor.trim() === "";
-      }
-      let getIndex = getProjects.findIndex(checkUndefined);
-      console.log(getIndex);
-      getProjects.splice(getIndex, getIndex);
+      getProjects.push({ ativos: getProjects.length });
+      getProjects.shift();
 
       return getProjects;
     });
-    getProjectsFunc.push({ ativos: getProjectsFunc.length });
-    const unique = getProjectsFunc.filter(
-      ((set) => (f) => !set.has(f.macrossetor) && set.add(f.macrossetor))(
-        new Set()
-      )
-    );
-
-    unique.shift();
-
-    //getting fitlters
-    const macrossetoresFunc = await page2.evaluate(async () => {
-      const lisParents = [
-        ...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
-      ];
-      const macrossetores = [];
-      lisParents.forEach((liParent) => {
-        macrossetores.push({
-          macrossetor: liParent.children[0].innerText,
-          filter: [].map.call(
-            liParent.children[1].children[0].children,
-            (child) => child.innerText
-          ),
-        });
-      });
-      return macrossetores;
-    });
 
     //Data passing
-    console.log(JSON.stringify(unique, null, 2));
     console.log(macrossetoresFunc);
+    // console.log(getProjectsFunc);
   }
 
   //Start a browser

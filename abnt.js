@@ -11,7 +11,7 @@ async function abnt() {
   //Main function that will run the project
   //Put some functions over here for get the data
 
-  const browser = await puppeteer.launch({ headless: false, devtools: true });
+  const browser = await puppeteer.launch({ headless: true, devtools: true });
   const page = await browser.newPage();
   await page.goto(SECUNDARY_URL);
   
@@ -19,26 +19,7 @@ async function abnt() {
   //   const page2 = await browser.newPage();
 //   await page2.goto(INITIAL_URL);
 
-  async function getList(page, page2) {
-	//getting fitlters
-	
-    // const macrossetoresFunc = await page2.evaluate(async () => {
-    //   const lisParents = [
-    //     ...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
-    //   ];
-    //   const macrossetores = [];
-    //   lisParents.forEach((liParent) => {
-    //     macrossetores.push({
-    //       macrossetor: liParent.children[0].innerText,
-    //       filter: [].map.call(
-    //         liParent.children[1].children[0].children,
-    //         (child) => child.innerText
-    //       ),
-    //     });
-    //   });
-    //   return macrossetores;
-    // });
-
+  async function getList(page) {
     //Try to get project´s by all project page
     const getProjectsFunc = await page.evaluate(async () => {
       const getOrderClick = document.querySelector(
@@ -55,7 +36,7 @@ async function abnt() {
       //need to wait a little bit
       const getProjects = [];
 
-      await delay(4000);
+      await delay(1500);
       //get projects
       let abntProjects = [
         ...document.querySelectorAll(
@@ -92,6 +73,25 @@ async function abnt() {
     //   console.log("indexFilter :" + indexFilt);
     // });
 
+	//getting fitlters
+	
+    // const macrossetoresFunc = await page2.evaluate(async () => {
+    //   const lisParents = [
+    //     ...document.querySelectorAll("#tabs-1 .rpRootGroup > li"),
+    //   ];
+    //   const macrossetores = [];
+    //   lisParents.forEach((liParent) => {
+    //     macrossetores.push({
+    //       macrossetor: liParent.children[0].innerText,
+    //       filter: [].map.call(
+    //         liParent.children[1].children[0].children,
+    //         (child) => child.innerText
+    //       ),
+    //     });
+    //   });
+    //   return macrossetores;
+    // });
+
     //Data passing
     // console.log(macrossetoresFunc);
   }
@@ -102,6 +102,5 @@ async function abnt() {
 
   //Start the method
   await getList(page);
-  // browser.close()
 }
 module.exports = abnt;

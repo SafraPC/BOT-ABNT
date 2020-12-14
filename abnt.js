@@ -86,11 +86,11 @@ async function abnt() {
             getProjectsFunc[i].macrossetor === getMacrossetor[j].macrossetor
           ) {
             //getting projects into respective macrossetor
-              gettingProject.push({project:getProjectsFunc[i]});
+              gettingProject.push( getProjectsFunc[i]);
             i++;
           } else {
               if(getProjectsFunc[i-1].macrossetor === getMacrossetor[j].macrossetor){
-                  getScript.push({macrossetor:getProjectsFunc[i-1].macrossetor,gettingProject});
+                  getScript.push({macrossetor:getProjectsFunc[i-1].macrossetor,projeto:gettingProject});
                   gettingProject = [];
               }
             //  console.log(getMacrossetor[j].macrossetor);

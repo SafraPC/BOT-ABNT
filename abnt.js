@@ -23,10 +23,18 @@ async function abnt() {
       const getOrderClick = document.querySelector(
         "#ctl00_ContentPlaceHolder1_gridProjeto_ctl00 > thead > tr > th:nth-child(4) > a"
       );
+
+      function delay(time) {
+        return new Promise(function (resolve) {
+          setTimeout(resolve, time);
+        });
+      }
+
       await getOrderClick.click();
       //need to wait a little bit
       const getProjects = [];
 
+      await delay(4000);
       //get projects
       let abntProjects = [
         ...document.querySelectorAll(
@@ -47,6 +55,14 @@ async function abnt() {
           },
         });
       });
+      //remove an index " " of array
+      await delay(1000);
+      function checkUndefined(parameter) {
+        return parameter.macrossetor.trim() === "";
+      }
+      let getIndex = getProjects.findIndex(checkUndefined);
+      console.log(getIndex);
+      getProjects.splice(getIndex, getIndex);
 
       return getProjects;
     });
@@ -56,6 +72,8 @@ async function abnt() {
         new Set()
       )
     );
+
+    unique.shift();
 
     //getting fitlters
     const macrossetoresFunc = await page2.evaluate(async () => {
@@ -74,6 +92,8 @@ async function abnt() {
       });
       return macrossetores;
     });
+
+    //Data passing
     console.log(JSON.stringify(unique, null, 2));
     console.log(macrossetoresFunc);
   }

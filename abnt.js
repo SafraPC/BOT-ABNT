@@ -55,7 +55,7 @@ async function abnt() {
           },
         });
       });
-      //remove an index " " of array
+      //principal array
       getProjects.push({ ativos: getProjects.length });
       getProjects.shift();
 
@@ -66,9 +66,40 @@ async function abnt() {
         new Set()
       )
     );
+    //Try to get and desmenber all data
+    let getMacrossetor = [];
+    //put only macrossetor in a array
+    unique.forEach((item) => {
+      getMacrossetor.push({ macrossetor: item.macrossetor });
+    });
+    let stop = false;
+    for (let i = 0; i <= getProjectsFunc.length; ) {
+      if (stop === false) {
+        for (let j = 0; j <= getMacrossetor.length - 1; ) {
+          stop = true;
+          if (getMacrossetor[j].macrossetor === undefined) {
+            break;
+          }
+          if (
+            getProjectsFunc[i].macrossetor === getMacrossetor[j].macrossetor
+          ) {
+            // console.log(getProjectsFunc[i].macrossetor);
+            i++;
+          } else {
+             console.log(getMacrossetor[j].macrossetor);
+            j++;
+          }
+        }
+      } else {
+        break;
+      }
+    }
 
-    let getScripts = JSON.stringify(unique, null, 2);
-    console.log(getScripts);
+    //array who get all and pass for a json file
+    let getScript = [];
+
+    // let getScripts = JSON.stringify(getProjectsFunc, null, 2);
+    // console.log(getScripts);
 
     //atribuate some data in filters
     // macrossetoresFunc.forEach((e) => {

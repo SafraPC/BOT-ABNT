@@ -74,9 +74,19 @@ async function abnt() {
       return getProjects;
     });
 
+    //atribuate some data in filters
+    // macrossetoresFunc.forEach((e) => {
+    //   let getMacrossetorIndex = e.macrossetor;
+    //   let getFilterIndex = e.filter;
+    //   let indexMacro = getMacrossetorIndex.replace(/\D/g, "");
+    //   let indexFilt = getFilterIndex.replace(/\D/g, "");
+    //   console.log("indexMacro :" + indexMacro);
+    //   console.log("indexFilter :" + indexFilt);
+    // });
+
     //Data passing
     console.log(macrossetoresFunc);
-    // console.log(getProjectsFunc);
+    console.log(getProjectsFunc);
   }
 
   //Start a browser

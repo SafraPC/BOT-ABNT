@@ -2,10 +2,14 @@
   "name": "BOT-crea",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT",
+  "license": "MIT",  
+  "nodemonConfig": {
+    "ignore": ["*.json"]
+ },
   "scripts": {
     "start": "nodemon index.js"
   },
+
 
   "dependencies": {
     "nodemon": "^2.0.6",
